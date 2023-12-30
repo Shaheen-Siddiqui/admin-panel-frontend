@@ -1,0 +1,50 @@
+/* Basic styles for the top navigation */
+.top-navbar {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adding a subtle shadow */
+    margin-bottom: 1rem;
+  }
+  
+  .top-navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+  
+  .top-navbar ul li {
+    margin-right: 20px;
+  }
+  
+  .top-navbar ul li:last-child {
+    margin-right: 0;
+  }
+  
+  .top-navbar a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .top-navbar a:hover {
+    color: #ffd700; /* Change color on hover */
+  }
+  
+  /* Adding some animation on hover */
+  .top-navbar a::before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background-color: #ffd700;
+    transition: width 0.3s ease;
+  }
+  
+  .top-navbar a:hover::before {
+    width: 100%;
+  }
+  
