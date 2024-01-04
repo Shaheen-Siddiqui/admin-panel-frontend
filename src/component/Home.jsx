@@ -163,7 +163,7 @@ const Home = () => {
           <div className="price-rating-case">
             <div className="form-group">
               <label htmlFor="imageUrl">
-                {loading ? "Uploading..." : "Upload Image"}
+                {loading ? "Uploading..." : "Hiro Image"}
               </label>
               <div className="file-input">
                 <input
@@ -177,7 +177,7 @@ const Home = () => {
                 />
 
                 <label htmlFor="imageUrl" className="file-label">
-                  Choose file
+                  Choose Signle
                 </label>
               </div>
             </div>
@@ -247,7 +247,7 @@ const Home = () => {
 
           <div className="image-upload-container">
             <label htmlFor="crouselImage" className="image-upload-label">
-              {multiFileLoading ? "Uploading..." : "Upload Image"}
+              {multiFileLoading ? "Uploading..." : "Upload Slider Image "}
             </label>
             <div className="image-upload-input">
               <input
