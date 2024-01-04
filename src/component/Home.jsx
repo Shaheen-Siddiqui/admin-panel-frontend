@@ -88,7 +88,7 @@ const Home = () => {
         },
       };
       const res = await axios.post(
-        "http://localhost:3005/product/add",
+        "https://admin-panel-j1q2.onrender.com/product/add",
         formData,
         config
       );
@@ -108,8 +108,6 @@ const Home = () => {
       } else {
         toast.error("fiels are empty");
       }
-
-      console.log(error);
     } finally {
       setSubmitLoading(false);
     }
