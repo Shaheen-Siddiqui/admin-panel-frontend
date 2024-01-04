@@ -7,7 +7,15 @@ import { toast } from "react-toastify";
 const Editmodel = ({ setIsModelOpen }) => {
   const { editFormData, SetEditFormData, products, setProducts } =
     useContext(ProductContext);
-  const { qty, _id, __v, ...formDataWithoutId } = editFormData;
+  const {
+    qty,
+    _id,
+    __v,
+    smallSize,
+    availableColor,
+    crouselImage,
+    ...formDataWithoutId
+  } = editFormData;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
