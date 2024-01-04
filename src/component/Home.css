@@ -1,73 +1,77 @@
 .product-form {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    
-  }
-  
-  .form-group {
-    height: 3rem;
-  }
-  
-  label {
-    display: block;
-    /* margin-bottom: 5px; */
-  }
-  
-  input[type="text"],
-  input[type="number"],
-  select,
-  button {
-    width: 100%;
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-  }
-  
-  input[type="file"] {
-    padding: 8px 0;
-    border: none;
-  }
-  
-  label {
-    display: block;
-    /* margin-bottom: 5px; */
-  }
-  
-  .file-input input[type="file"] {
-    display: none;
-  }
-  
-  .file-label {
-    background-color: #b8c8d9;
-    color: #fff;
-    padding: 4px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-bottom: 1rem;
-    line-height: 1;
-  }
-  
-  button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    padding: 10px 20px;
-    font-size: 16px;
-    margin-top: 1rem;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 
-  .price-rating-case {
+}
+
+.form-group {
+  height: 3rem;
+}
+
+label {
+  display: block;
+  /* margin-bottom: 5px; */
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+input[type="file"] {
+  padding: 8px 0;
+  border: none;
+}
+
+label {
+  display: block;
+  /* margin-bottom: 5px; */
+}
+
+.file-input input[type="file"] {
+  display: none;
+}
+
+.file-label {
+  background-color: #b8c8d9;
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 1rem;
+  line-height: 1;
+}
+
+.submit-bnn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 10px 20px;
+  font-size: 16px;
+  width: 100%;
+}
+
+.submit-bnn :hover {
+  background-color: #0056b3;
+}
+
+#topmargin-btn {
+  margin-top: 60px;
+}
+
+
+.price-rating-case {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -114,4 +118,105 @@
 
 .image-upload-choose:hover {
   background: #2980b9;
+}
+
+/* Preview */
+.image-preview-container {
+  display: flex;
+  overflow-x: auto; /* Enables horizontal scrolling */
+  gap: 10px; /* Space between images */
+  padding: 10px 0;
+}
+
+.image-preview {
+  flex: 0 0 auto; /* Prevents the flex items from growing or shrinking */
+  position: relative;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.image-preview img {
+  display: block; /* Remove default inline spacing */
+  width: 50px; /* Fixed width for each image */
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.remove-image-button {
+  position: absolute;
+  top: -5px;
+  right: 17px;
+  /* Red background with some transparency */
+  color: black;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: bolder;
+  line-height: 1;
+}
+
+
+
+/* ************* */
+.size-input-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.size-input-container input {
+  flex-grow: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.size-input-container button {
+  padding: 0px 15px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.size-list {
+  display: flex;
+  overflow-x: auto; /* Enables horizontal scrolling */
+  gap: 10px; /* Space between size items */
+  padding: 10px 0;
+  list-style: none;
+  text-transform: lowercase;
+}
+
+.size-item {
+  flex: 0 0 auto; /* Prevents the flex items from growing or shrinking */
+  background-color: #f3f3f3;
+  padding: 5px 15px;
+  border-radius: 20px; /* Oval shape */
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.remove-size-button {
+  background-color: rgba(4, 4, 4, 0.7);
+  color: white;
+  border: none;
+  position: absolute;
+  top: -5px;
+  left: 25px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%; /* Circular button */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  padding: 0;
+}
+
+.remove-size-button:hover {
+  background-color: rgba(255, 0, 0, 1);
 }

@@ -3,7 +3,6 @@ import {
     CLOUDINARY_UPLOAD_PRESET,
     CLOUDINARY_URL,
   } from './uploadImageCloudinaty';
-import axios from "axios";
   
 
  const handleFileChange = async (event, setLoading, setFormData, formData) => {
@@ -38,9 +37,6 @@ import axios from "axios";
     setLoading(false); // Set loading to false when upload is complete
   }
 };
-
-
-
 
 export {handleFileChange}
 

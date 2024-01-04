@@ -14,6 +14,9 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [multiFileLoading, setMultiFileLoading] = useState(false);
+  const [showImagePreview, setShowImagePreview] = useState(false);
+  const [currentSmallSize, setCurrentSmallSize] = useState('');
+  const [color, setColor] = useState("");
 
   const [formData, setFormData] = useState({
     title: "",
@@ -22,7 +25,6 @@ const Home = () => {
     category: "",
     imageUrl: null, // For file upload
     smallSize: [],
-    bigSize: [],
     availableColor: [],
     crouselImage: [], // For multiple file uploads
   });
@@ -33,7 +35,6 @@ const Home = () => {
     category,
     imageUrl,
     smallSize,
-    bigSize,
     availableColor,
     crouselImage,
   } = formData;
@@ -44,6 +45,36 @@ const Home = () => {
       ...formData,
       [name]: value,
     });
+  };
+
+  const handleAddSize = () => {
+    if (currentSmallSize) {
+      setFormData({
+        ...formData,
+        smallSize: [...smallSize, currentSmallSize],
+      });
+      setCurrentSmallSize(''); // Reset the input field
+    }
+  };
+
+  const handleRemoveSize = (index) => {
+    const newSizes = smallSize.filter((_, i) => i !== index);
+    setFormData({ ...formData, smallSize: newSizes });
+  };
+
+  const handleAddColor = () => {
+    if (color) {
+      setFormData({
+        ...formData,
+        availableColor: [...availableColor, color],
+      });
+      setColor(""); // Reset the input field
+    }
+  };
+
+  const handleRemoveColor = (index) => {
+    const newColor = availableColor.filter((_, i) => i !== index);
+    setFormData({ ...formData, availableColor: newColor });
   };
 
   const handleSubmit = async (e) => {
@@ -67,6 +98,9 @@ const Home = () => {
         rating: "",
         category: "",
         imageUrl: null,
+        smallSize: [],
+        availableColor: [],
+        crouselImage: [], // For multiple file uploads
       });
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -74,6 +108,8 @@ const Home = () => {
       } else {
         toast.error("fiels are empty");
       }
+
+      console.log(error);
     } finally {
       setSubmitLoading(false);
     }
@@ -82,42 +118,45 @@ const Home = () => {
   const handleMultipleFileChange = async (event) => {
     setMultiFileLoading(true);
     const files = event.target.files;
-    const imagesArray = [];
-    const cloudinaryFormData = new FormData();
+    const uploadedImageUrls = [];
 
     for (let i = 0; i < files.length; i++) {
-      imagesArray.push(files[i].name);
+      const cloudinaryFormData = new FormData();
       cloudinaryFormData.append("file", files[i]);
       cloudinaryFormData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
       cloudinaryFormData.append("folder", "Abdullah-Store");
-    }
 
-    try {
-      const response = await fetch(CLOUDINARY_URL, {
-        method: "POST",
-        body: cloudinaryFormData,
-      });
-
-      
-      if (response.ok) {
-        const data = await response.json();
-
-        setFormData({
-          ...formData,
-          // crouselImage: 
+      try {
+        const response = await fetch(CLOUDINARY_URL, {
+          method: "POST",
+          body: cloudinaryFormData,
         });
-      } else {
-        toast.error("Image upload failed");
+
+        if (response.ok) {
+          const data = await response.json();
+          uploadedImageUrls.push(data.url); // Collect the URL
+            
+            setMultiFileLoading(false);
+        } else {
+          toast.error("Image upload failed for " + files[i].name);
+        }
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        toast.error("Error uploading image: " + files[i].name);
       }
-    } catch (error) {
-      console.error("Error uploading image:", error);
-      toast.error("Error uploading image");
-    } finally {
-      setMultiFileLoading(false);
     }
+
+    setFormData({
+      ...formData,
+      crouselImage: uploadedImageUrls, // Set the array of URLs
+    });
   };
 
-  console.log(crouselImage, "--");
+  const handleRemoveImage = (index) => {
+    const newImages = formData.crouselImage.filter((_, i) => i !== index);
+    setFormData({ ...formData, crouselImage: newImages });
+  };
+
 
   return (
     <>
@@ -156,11 +195,11 @@ const Home = () => {
                   Select category
                 </option>
 
-                <option value="preteens Waistcoat">preteens Waistcoat</option>
-                <option value="preteens Kurta">preteens Kurta</option>
-                <option value="Waistcoat">Waistcoat</option>
+                <option value="preteens Waistcoat">Kids Waistcoat</option>
+                <option value="preteens Kurta">Kids Kurta</option>
+                <option value="Waistcoat">young's Waistcoat</option>
                 <option value="young adult's Kurta">young adult's Kurta</option>
-                <option value="Gifts for beloved">Gifts for beloved</option>
+                <option value="Gifts for beloved">Gifts </option>
               </select>
             </div>
           </div>
@@ -173,6 +212,7 @@ const Home = () => {
               type="text"
               id="title"
               name="title"
+              required
             />
           </div>
 
@@ -187,6 +227,7 @@ const Home = () => {
                 name="price"
                 min="0"
                 step="0.01"
+                required
               />
             </div>
 
@@ -201,6 +242,7 @@ const Home = () => {
                 min="1"
                 max="5"
                 step="1"
+                required
               />
             </div>
           </div>
@@ -225,16 +267,98 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="form-group">
-            <label>Selected Images:</label>
-            <ul>
-              {/* {crouselImage.map((image, index) => (
-                <li key={index}>{image}</li>
-              ))} */}
+          <div>
+            <label>
+              Selected Images: &nbsp;
+              <strong
+                onClick={() => setShowImagePreview(!showImagePreview)}
+                className="pointer"
+              >
+                {showImagePreview ? <span>📂</span> : <span>📁</span>}
+              </strong>
+            </label>
+            {showImagePreview && (
+              <div className="image-preview-container">
+                {formData.crouselImage.map((image, index) => (
+                  <div key={index} className="image-preview">
+                    <img src={image} alt={`Preview ${index}`} />
+                    <strong
+                      className="remove-image-button"
+                      onClick={() => handleRemoveImage(index)}
+                      aria-label="Remove image"
+                    >
+                      ×
+                    </strong>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="smallSize">Sizes:</label>
+            <div className="size-input-container">
+              <input
+                type="number"
+                value={currentSmallSize}
+                onChange={(e) => setCurrentSmallSize(e.target.value)}
+                placeholder="Enter size"
+                min="0"
+              />
+              <button type="button" onClick={handleAddSize}>
+                Add Size
+              </button>
+            </div>
+
+            <ul className="size-list">
+              {smallSize.map((size, index) => (
+                <li key={index} className="size-item">
+                  <span className="size-number">{size}</span>
+                  <button
+                    className="remove-size-button"
+                    onClick={() => handleRemoveSize(index)}
+                    aria-label="Remove size"
+                  >
+                    ×
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
 
-          <button type="submit">
+          {/* ADD COLOR */}
+          <div>
+            <label htmlFor="smallSize">Available Colors:</label>
+            <div className="size-input-container">
+              <input
+                type="text"
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
+                placeholder="Enter color"
+                min="0"
+              />
+              <button type="button" onClick={handleAddColor}>
+                Add Color
+              </button>
+            </div>
+
+            <ul className="size-list">
+              {availableColor.map((size, index) => (
+                <li key={index} className="size-item">
+                  <span className="size-number">{size}</span>
+                  <button
+                    className="remove-size-button"
+                    onClick={() => handleRemoveColor(index)}
+                    aria-label="Remove size"
+                  >
+                    ×
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <button type="submit" className="submit-bnn">
             {submitLoading ? "Submitting..." : "Submit"}
           </button>
         </form>
